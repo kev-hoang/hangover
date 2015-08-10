@@ -143,6 +143,9 @@ class Menu extends Component {
 
 	myPath(){
 		var self = this;
+		this.setState({
+			isLoading: true
+		})
 		myFirebaseRef.once("value", function(locations) {
 	      let mapRefs = Object.keys(locations.val()).map((key)=>{
 	        let lat = (locations.val()[key].coords.latitude)
@@ -177,6 +180,9 @@ class Menu extends Component {
 		      }
 		    }
 		    var map = "https://maps.googleapis.com/maps/api/staticmap?size=300x450"+markers+path+'&key=AIzaSyChqTqvVGjwZbF4_-wcmwUqrHnO8Y4X4Ok';
+			self.setState({
+				isLoading: false
+			})
 			self.props.navigator.push({
 				title: 'My Hangover Path',
 				component: Path,
