@@ -36,7 +36,7 @@ var styles = StyleSheet.create({
 	},
 	buttonText: {
 	  fontSize: 18,
-	  color: 'white',
+	  color: '#47474A',
 	  alignSelf: 'center'
 	},
 	button: {
@@ -51,16 +51,41 @@ var styles = StyleSheet.create({
 	  alignSelf: 'stretch',
 	  justifyContent: 'center'
 	},
-	searchInput: {
+	endButton: {
 	  height: 36,
-	  padding: 4,
-	  marginRight: 5,
-	  flex: 4,
-	  fontSize: 18,
+	  flex: 1,
+	  flexDirection: 'row',
+	  backgroundColor: '#FF3724',
+	  borderColor: '#FF3724',
 	  borderWidth: 1,
-	  borderColor: '#48BBEC',
 	  borderRadius: 8,
-	  color: '#48BBEC'
+	  marginBottom: 10,
+	  alignSelf: 'stretch',
+	  justifyContent: 'center'
+	},
+	resetButton: {
+	  height: 36,
+	  flex: 1,
+	  flexDirection: 'row',
+	  backgroundColor: '#FFF333',
+	  borderColor: '#FFF333',
+	  borderWidth: 1,
+	  borderRadius: 8,
+	  marginBottom: 10,
+	  alignSelf: 'stretch',
+	  justifyContent: 'center'
+	},
+	storyButton: {
+	  height: 36,
+	  flex: 1,
+	  flexDirection: 'row',
+	  backgroundColor: '#1FF81B',
+	  borderColor: '#1FF81B',
+	  borderWidth: 1,
+	  borderRadius: 8,
+	  marginBottom: 10,
+	  alignSelf: 'stretch',
+	  justifyContent: 'center'
 	},
 	image: {
 	  width: 217,
@@ -128,21 +153,27 @@ class Menu extends Component {
 	      	var path = '&path=color:0x0000ff|weight:5'
 		    var markers = ''
 		    mapRefs.forEach((location, index)=>{
-		      if(index === 0 || index === (mapRefs.length -1)){
-		        markers += '&markers=color:blue|label:'+index+'|'+location.lat+','+location.long
+		      if(index === 0){
+		        markers += '&markers=color:blue|label:0|'+location.lat+','+location.long
+		      }
+		      if(index === (mapRefs.length -1)){
+		      	markers += '&markers=color:blue|label:End|'+location.lat+','+location.long
 		      }
 		      path += '|'+location.lat+','+location.long
 		    })
 		    var counts = mapRefs.reduce((obj, cur)=>{
-		        if( !obj[cur] ) {
-		            obj[cur] = 0;
+		        var key = cur.lat + ',' + cur.long
+		        if( !obj[key] ) {
+		            obj[key] = 0;
 		        }
-		        obj[cur]++;
+		        obj[key]++;
 		        return obj;
 		    }, {});
+		    var counter = 1;
 		    for(var key in counts){
-		      if(counts[key] === 10 && key !== mapRefs[0] && key !== mapRefs[mapRefs.length-1]){
-		        markers += '&markers=color:blue|label:'+mapRefs.indexOf(key)+'|'+key.lat+','+key.long
+		      if(counts[key] >= 10){
+		        markers += '&markers=color:blue|label:'+counter+'|'+key
+		        counter ++
 		      }
 		    }
 		    var map = "https://maps.googleapis.com/maps/api/staticmap?size=300x450"+markers+path+'&key=AIzaSyChqTqvVGjwZbF4_-wcmwUqrHnO8Y4X4Ok';
@@ -174,7 +205,7 @@ class Menu extends Component {
 				</Text>
 			</TouchableHighlight>) :
 			(<TouchableHighlight
-				style={styles.button}
+				style={styles.endButton}
 				underlayColor='#FF3724'>
 				<Text
 					style={styles.buttonText}
@@ -188,17 +219,8 @@ class Menu extends Component {
 				<Text style={styles.description}>{this.state.message}</Text>
 				{tracker}
 				<TouchableHighlight
-					style={styles.button}
-					underlayColor='#FF3724'
-					onPress={this.trackReset.bind(this)}>
-					<Text
-						style={styles.buttonText}>
-						Hangover Reset
-					</Text>
-				</TouchableHighlight>
-				<TouchableHighlight
-					style={styles.button}
-					underlayColor='#FF3724'
+					style={styles.storyButton}
+					underlayColor='#1FF81B'
 					onPress={this.myPath.bind(this)}>
 					<Text
 						style={styles.buttonText}>
@@ -206,7 +228,16 @@ class Menu extends Component {
 					</Text>
 				</TouchableHighlight>
 				<TouchableHighlight
-					style={styles.button}
+					style={styles.resetButton}
+					underlayColor='#FFF333'
+					onPress={this.trackReset.bind(this)}>
+					<Text
+						style={styles.buttonText}>
+						Hangover Reset
+					</Text>
+				</TouchableHighlight>
+				<TouchableHighlight
+					style={styles.endButton}
 					underlayColor='#FF3724'>
 					<Text
 						style={styles.buttonText}>

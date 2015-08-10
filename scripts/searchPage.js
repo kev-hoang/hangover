@@ -157,7 +157,7 @@ onSearchTextChanged(event) {
     return (
       <View style={styles.container}>
         <Text style={styles.description}>
-          Search by place-name, postcode or search near your location.
+          Search for friends near your location.
         </Text>
         <View style={styles.flowRight}>
 		  <TextInput
@@ -169,14 +169,16 @@ onSearchTextChanged(event) {
 		      underlayColor='#99d9f4'>
 		    <Text 
 		    style={styles.buttonText}
-		    onPress={this.onSearchPressed.bind(this)}>Go</Text>
+		    // onPress={this.onSearchPressed.bind(this)}
+		    >Go</Text>
 		  </TouchableHighlight>
 		</View>
 		<TouchableHighlight 
 			style={styles.button}
 		    underlayColor='#99d9f4'
-		    onPress={this.onLocationPressed.bind(this)}>
-		  <Text style={styles.buttonText}>Location</Text>
+		    // onPress={this.onLocationPressed.bind(this)}
+		    >
+		  <Text style={styles.buttonText}>Use My Location</Text>
 		</TouchableHighlight>
       	{spinner}
       	<Text style={styles.description}>{this.state.message}</Text>
