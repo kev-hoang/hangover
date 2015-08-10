@@ -86,5 +86,5 @@ class tabs extends React.Component {
 //   }
 // }
 
-// AppRegistry.registerComponent('hangover', () => Hangover);
+// AppRegistry.registerComponent('Hangover', () => Hangover);
 AppRegistry.registerComponent('Hangover', () => tabs);
