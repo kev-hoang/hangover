@@ -102,7 +102,8 @@ class Menu extends Component {
 		this.state = {
 			isLoading: false,
 			message: '',
-			isTracking: false
+			isTracking: false,
+			interval: 10
 		}
 	}
 
@@ -123,7 +124,7 @@ class Menu extends Component {
 					message: 'Location lost'
 				})
 			})
-		}, 10000)
+		}, this.state.interval * 1000)
 	}
 
 	stopTracking() {
@@ -139,6 +140,11 @@ class Menu extends Component {
 		this.setState({
 			message: 'Your hangover has been reset'
 		})
+	}
+
+	onSearchTextChanged(event) {
+		let number = parseInt(event.nativeEvent.text)
+	  this.setState({ interval: number });
 	}
 
 	myPath(){
@@ -224,6 +230,12 @@ class Menu extends Component {
 			<View style={styles.container}>
 				<Text style={styles.description}>{this.state.message}</Text>
 				{tracker}
+				<TextInput
+				    style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+				    onChange={this.onSearchTextChanged.bind(this)}
+				    value={this.state.interval}
+				    keyboardType='number-pad'
+				  />
 				<TouchableHighlight
 					style={styles.storyButton}
 					underlayColor='#1FF81B'
@@ -247,7 +259,7 @@ class Menu extends Component {
 					underlayColor='#FF3724'>
 					<Text
 						style={styles.buttonText}>
-						Help! I'm Drunk!
+						A Friend is Drunk!
 					</Text>
 				</TouchableHighlight>
 				{spinner}
