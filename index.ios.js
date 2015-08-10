@@ -5,49 +5,86 @@
 'use strict';
 
 var React = require('react-native');
+var Menu = require('./scripts/Menu');
+var SearchPage = require('./scripts/searchPage');
+
 var {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
+    AppRegistry,
+    StyleSheet,
+    Text,
+    View,
+    NavigatorIOS,
+    TabBarIOS,
 } = React;
 
-var Hangover = React.createClass({
-  render: function() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-    );
+//defines a single style
+var styles = React.StyleSheet.create({
+  text: {
+    color: 'black',
+    backgroundColor: 'white',
+    fontSize: 30,
+    margin: 80
+  },
+  container: {
+    flex: 1
   }
 });
 
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+class tabs extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedTab: 'menu'
+    };
+  }
 
-AppRegistry.registerComponent('Hangover', () => Hangover);
+  render() {
+    return (
+      <TabBarIOS selectedTab={this.state.selectedTab}>
+        <TabBarIOS.Item
+          title='Home'
+          selected={this.state.selectedTab === 'menu'}
+          icon={ require('image!home') }
+          onPress={() => {
+              this.setState({
+                  selectedTab: 'menu',
+              });
+          }}>
+            <React.NavigatorIOS
+              style={styles.container}
+              initialRoute={{
+                title: 'My Hangover',
+                component: Menu,
+              }}/>
+        </TabBarIOS.Item>
+        <TabBarIOS.Item
+          title='Friends'
+          selected={this.state.selectedTab === 'search'}
+          icon={ require('image!friends') }
+          onPress={() => {
+                this.setState({
+                    selectedTab: 'search',
+                });
+          }}>
+          <SearchPage/>
+        </TabBarIOS.Item>
+      </TabBarIOS>
+    );
+  }
+}
+
+// class Hangover extends React.Component {
+//   render() {
+//     return (
+//       <React.NavigatorIOS
+//         style={styles.container}
+//         initialRoute={{
+//           title: 'My Hangover',
+//           component: Menu,
+//         }}/>
+//     );
+//   }
+// }
+
+// AppRegistry.registerComponent('hangover', () => Hangover);
+AppRegistry.registerComponent('Hangover', () => tabs);
